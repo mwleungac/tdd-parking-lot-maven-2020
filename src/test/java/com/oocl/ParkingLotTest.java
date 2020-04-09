@@ -58,8 +58,22 @@ public class ParkingLotTest {
 
         Car returnedCar = parkingLot.fetch(ticket);     //return corresponding car with ticket
 
-      //  System.out.println(returnedCar + "  " + car);
+      //  System.out.println(returnedCar + "  " + car);     // compare returned car and parked car
 
         Assert.assertEquals(car, returnedCar);
+    }
+
+    @Test
+    public void no_car_fetched_when_wrong_or_no_ticket() {
+        ParkingLot parkingLot = new ParkingLot();
+
+        Car car = new Car();
+        Ticket ticket = parkingLot.park(car);       //return ticket after parked
+
+        Car returnedCar = parkingLot.fetch(new Ticket());     //no returned car when wrong/ no ticket
+
+        System.out.println(returnedCar);                      // no car returned if wrong/no ticket
+
+        Assert.assertNull(returnedCar);
     }
 }
