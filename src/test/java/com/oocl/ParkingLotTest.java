@@ -27,4 +27,25 @@ public class ParkingLotTest {
         Assert.assertNotNull(returnedCar);
     }
 
+    @Test
+    public void should_fetch_correct_car_when_park_multiple_cars() {
+        ParkingLot parkingLot = new ParkingLot();
+
+        Car car1 = new Car();
+        Car car2 = new Car();
+        Car car3 = new Car();
+        Ticket ticket1 = parkingLot.park(car1);
+        Ticket ticket2 = parkingLot.park(car2);
+        Ticket ticket3 = parkingLot.park(car3);
+
+        Car returnedCar1 = parkingLot.fetch(ticket1);
+        Car returnedCar2 = parkingLot.fetch(ticket2);
+        Car returnedCar3 = parkingLot.fetch(ticket3);
+
+        System.out.println(ticket1);
+
+        Assert.assertEquals(car1, returnedCar1);
+        Assert.assertEquals(car2, returnedCar2);
+        Assert.assertEquals(car3, returnedCar3);
+    }
 }
