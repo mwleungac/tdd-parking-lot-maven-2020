@@ -147,4 +147,23 @@ public class ParkingLotTest {
         }
     }
 
+    @Test
+    public void return_error_if_no_ticket_received() {
+        ParkingLot parkingLot = new ParkingLot();
+        boolean ticketIsUsed = false;
+
+        Car car = new Car();
+
+        Ticket ticket = parkingLot.park(car);
+
+        Car returnedCar = parkingLot.fetch(new Ticket(), false);
+
+        System.out.println(car);
+        System.out.println(ticket);
+        System.out.println(returnedCar);
+
+        if(returnedCar == null){
+            throw new IllegalArgumentException("Please provide your parking ticket");
+        }
+    }
 }
