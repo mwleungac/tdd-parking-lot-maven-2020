@@ -13,9 +13,16 @@ public class ParkingLot {
         return ticket;
     }
 
-    public Car fetch(Ticket ticket) {
-       Car car = cars.remove(ticket.toString());     // remove used ticket inside the map
-        return car;
-       // return cars.get(ticket);        //get corresponding car by ticket
+    public Car fetch(Ticket ticket, boolean ticketIsUsed) {
+        if(ticketIsUsed == true){
+            return cars.remove(ticket.toString());
+        }
+        else if (ticketIsUsed == false) {
+            //  Car car = cars.remove(ticket.toString());     // remove used ticket inside the map
+            // return car;
+            return cars.get(ticket);        //get corresponding car by ticket
+        }
+
+        return null;
     }
 }
