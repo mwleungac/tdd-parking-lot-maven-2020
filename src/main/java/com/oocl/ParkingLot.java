@@ -14,6 +14,8 @@ public class ParkingLot {
     }
 
     public Car fetch(Ticket ticket) {
-        return cars.get(ticket);        //get car1 by ticket1
+       Car car = cars.remove(ticket.toString());     // remove used ticket inside the map
+        return car;
+       // return cars.get(ticket);        //get corresponding car by ticket
     }
 }
