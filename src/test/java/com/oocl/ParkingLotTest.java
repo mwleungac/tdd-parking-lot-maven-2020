@@ -14,4 +14,17 @@ public class ParkingLotTest {
 
         Assert.assertNotNull(ticket);
     }
+
+    @Test
+    public void return_car_when_ticket_received() {
+        ParkingLot parkingLot = new ParkingLot();
+
+        Car car = new Car();
+        Ticket ticket = parkingLot.park(car);
+
+        Car returnedCar = parkingLot.fetch(ticket);
+
+        Assert.assertNotNull(returnedCar);
+    }
+
 }
