@@ -102,7 +102,7 @@ public class ParkingLotTest {
     }
 
     @Test
-    public void check_capacity_of_parking_lot() {
+    public void no_ticket_given_when_parking_lot_full() {
         ParkingLot parkingLot = new ParkingLot();
         boolean ticketIsUsed = false;
 
@@ -125,4 +125,5 @@ public class ParkingLotTest {
         Assert.assertNull(returnedCar3);
 
     }
+
 }
