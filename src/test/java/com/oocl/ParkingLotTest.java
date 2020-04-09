@@ -122,7 +122,7 @@ public class ParkingLotTest {
         System.out.println(ticket2 + "   " + car2 + "  " + returnedCar2);
         System.out.println(ticket3 + "   " + car3 + "  " + returnedCar3);
 
-        Assert.assertNull(returnedCar3);
+        Assert.assertNull(ticket3);
 
     }
 
