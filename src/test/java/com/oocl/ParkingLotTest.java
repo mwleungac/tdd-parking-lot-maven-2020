@@ -1,5 +1,6 @@
 package com.oocl;
 
+import org.hamcrest.core.IsNull;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -124,6 +125,26 @@ public class ParkingLotTest {
 
         Assert.assertNull(ticket3);
 
+    }
+
+    @Test
+    public void return_error_if_wrong_ticket_received() {
+        ParkingLot parkingLot = new ParkingLot();
+        boolean ticketIsUsed = false;
+
+        Car car = new Car();
+
+        Ticket ticket = parkingLot.park(car);
+
+        Car returnedCar = parkingLot.fetch(new Ticket(), false);
+
+        System.out.println(car);
+        System.out.println(ticket);
+        System.out.println(returnedCar);
+
+        if(returnedCar == null){
+            throw new IllegalArgumentException("Unrecognized parking ticket");
+        }
     }
 
 }
