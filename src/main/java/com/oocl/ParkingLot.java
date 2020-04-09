@@ -19,19 +19,28 @@ public class ParkingLot {
             return ticket;
 
         }
-        return null;
+
+        throw new NotEnoughPosition();
 
     }
 
     public Car fetch(Ticket ticket, boolean ticketIsUsed) {
+
+        if(!cars.containsKey(ticket)){
+            throw new UnrecognizedOrNoTicket();
+        }
+
+
         if(ticketIsUsed == true){
             return cars.remove(ticket.toString());
         }
-        else if (ticketIsUsed == false) {
+        else if (ticketIsUsed == false && ticket != null) {
             //  Car car = cars.remove(ticket.toString());     // remove used ticket inside the map
             // return car;
             return cars.get(ticket);        //get corresponding car by ticket
         }
+
+
 
         return null;
     }

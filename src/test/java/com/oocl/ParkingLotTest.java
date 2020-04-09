@@ -1,6 +1,5 @@
 package com.oocl;
 
-import org.hamcrest.core.IsNull;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -24,7 +23,7 @@ public class ParkingLotTest {
         Car car = new Car();
         Ticket ticket = parkingLot.park(car);
 
-        Car returnedCar = parkingLot.fetch(ticket, ticketIsUsed);
+        Car returnedCar = parkingLot.fetch(ticket,ticketIsUsed);
 
         Assert.assertNotNull(returnedCar);
     }
@@ -41,9 +40,9 @@ public class ParkingLotTest {
         Ticket ticket2 = parkingLot.park(car2);
         Ticket ticket3 = parkingLot.park(car3);
 
-        Car returnedCar1 = parkingLot.fetch(ticket1, ticketIsUsed);
-        Car returnedCar2 = parkingLot.fetch(ticket2, ticketIsUsed);
-        Car returnedCar3 = parkingLot.fetch(ticket3, ticketIsUsed);
+        Car returnedCar1 = parkingLot.fetch(ticket1,ticketIsUsed);
+        Car returnedCar2 = parkingLot.fetch(ticket2,ticketIsUsed);
+        Car returnedCar3 = parkingLot.fetch(ticket3,ticketIsUsed);
 
         System.out.println(ticket1);
 
@@ -62,7 +61,7 @@ public class ParkingLotTest {
 
         System.out.println(ticket);
 
-        Car returnedCar = parkingLot.fetch(ticket, ticketIsUsed);     //return corresponding car with ticket
+        Car returnedCar = parkingLot.fetch(ticket,ticketIsUsed);     //return corresponding car with ticket
 
         System.out.println(returnedCar);
       //  System.out.println(returnedCar + "  " + car);     // compare returned car and parked car
@@ -78,7 +77,7 @@ public class ParkingLotTest {
         Car car = new Car();
         Ticket ticket = parkingLot.park(car);       //return ticket after parked
 
-        Car returnedCar = parkingLot.fetch(new Ticket(), ticketIsUsed);     //no returned car when wrong/ no ticket
+        Car returnedCar = parkingLot.fetch(new Ticket(),ticketIsUsed);     //no returned car when wrong/ no ticket
 
         System.out.println(returnedCar);                      // no car returned if wrong/no ticket
 
@@ -95,7 +94,7 @@ public class ParkingLotTest {
 
         System.out.println(ticket);
 
-        Car returnedCar = parkingLot.fetch(ticket, ticketIsUsed);     //returned car by ticket
+        Car returnedCar = parkingLot.fetch(ticket,ticketIsUsed);     //returned car by ticket
         System.out.println(car);
         System.out.println(returnedCar);
 
@@ -115,9 +114,9 @@ public class ParkingLotTest {
         Ticket ticket2 = parkingLot.park(car2);
         Ticket ticket3 = parkingLot.park(car3);
 
-        Car returnedCar1 = parkingLot.fetch(ticket1, ticketIsUsed);
-        Car returnedCar2 = parkingLot.fetch(ticket2, ticketIsUsed);
-        Car returnedCar3 = parkingLot.fetch(ticket3, ticketIsUsed);
+        Car returnedCar1 = parkingLot.fetch(ticket1,ticketIsUsed);
+        Car returnedCar2 = parkingLot.fetch(ticket2,ticketIsUsed);
+        Car returnedCar3 = parkingLot.fetch(ticket3,ticketIsUsed);
 
         System.out.println(ticket1 + "   " + car1 + "  " + returnedCar1);
         System.out.println(ticket2 + "   " + car2 + "  " + returnedCar2);
@@ -127,7 +126,7 @@ public class ParkingLotTest {
 
     }
 
-    @Test
+    @Test (expected = UnrecognizedOrNoTicket.class)
     public void return_error_if_wrong_ticket_received() {
         ParkingLot parkingLot = new ParkingLot();
         boolean ticketIsUsed = false;
@@ -136,18 +135,15 @@ public class ParkingLotTest {
 
         Ticket ticket = parkingLot.park(car);
 
-        Car returnedCar = parkingLot.fetch(new Ticket(), false);
+        Car returnedCar = parkingLot.fetch(new Ticket(),ticketIsUsed);
 
         System.out.println(car);
         System.out.println(ticket);
         System.out.println(returnedCar);
 
-        if(returnedCar == null){
-            throw new IllegalArgumentException("Unrecognized parking ticket");
-        }
     }
 
-    @Test
+    @Test (expected = UnrecognizedOrNoTicket.class)
     public void return_error_if_no_ticket_received() {
         ParkingLot parkingLot = new ParkingLot();
         boolean ticketIsUsed = false;
@@ -155,15 +151,59 @@ public class ParkingLotTest {
         Car car = new Car();
 
         Ticket ticket = parkingLot.park(car);
-
-        Car returnedCar = parkingLot.fetch(new Ticket(), false);
+        Car returnedCar = parkingLot.fetch(new Ticket(),ticketIsUsed);
 
         System.out.println(car);
         System.out.println(ticket);
         System.out.println(returnedCar);
 
-        if(returnedCar == null){
-            throw new IllegalArgumentException("Please provide your parking ticket");
-        }
+       // System.out.println(Exceptions.class);
+
+    }
+
+    @Test (expected = NotEnoughPosition.class)
+    public void return_error_if_parking_position_not_enough() {
+        ParkingLot parkingLot = new ParkingLot();
+        boolean ticketIsUsed = false;
+
+        Car car1 = new Car();
+        Car car2 = new Car();
+        Car car3 = new Car();
+
+        Ticket ticket1 = parkingLot.park(car1);
+        Ticket ticket2 = parkingLot.park(car2);
+        Ticket ticket3 = parkingLot.park(car3);
+
+        Car returnedCar1 = parkingLot.fetch(ticket1,ticketIsUsed);
+        Car returnedCar2 = parkingLot.fetch(ticket2,ticketIsUsed);
+        Car returnedCar3 = parkingLot.fetch(ticket3,ticketIsUsed);
+
+        System.out.println(car1 + "  " + ticket1 + "  " + returnedCar1);
+        System.out.println(car2 + "  " + ticket2 + "  " + returnedCar2);
+        System.out.println(car3 + "  " + ticket3 + "  " + returnedCar3);
+
+    }
+
+    @Test
+    public void park_to_second_park_if_first_park_full() {
+        ParkingLot parkingLot = new ParkingLot();
+        boolean ticketIsUsed = false;
+
+        Car car1 = new Car();
+        Car car2 = new Car();
+        Car car3 = new Car();
+
+        Ticket ticket1 = parkingLot.park(car1);
+        Ticket ticket2 = parkingLot.park(car2);
+        Ticket ticket3 = parkingLot.park(car3);
+
+        Car returnedCar1 = parkingLot.fetch(ticket1,ticketIsUsed);
+        Car returnedCar2 = parkingLot.fetch(ticket2,ticketIsUsed);
+        Car returnedCar3 = parkingLot.fetch(ticket3,ticketIsUsed);
+
+        System.out.println(car1 + "  " + ticket1 + "  " + returnedCar1);
+        System.out.println(car2 + "  " + ticket2 + "  " + returnedCar2);
+        System.out.println(car3 + "  " + ticket3 + "  " + returnedCar3);
+
     }
 }
