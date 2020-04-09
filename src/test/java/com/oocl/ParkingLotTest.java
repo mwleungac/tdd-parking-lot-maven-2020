@@ -119,6 +119,10 @@ public class ParkingLotTest {
         Car returnedCar3 = parkingLot.fetch(ticket3, ticketIsUsed);
 
         System.out.println(ticket1 + "   " + car1 + "  " + returnedCar1);
-        System.out.println(ticket2 + "   " + car2 + "  " + returnedCar1);
+        System.out.println(ticket2 + "   " + car2 + "  " + returnedCar2);
+        System.out.println(ticket3 + "   " + car3 + "  " + returnedCar3);
+
+        Assert.assertNull(returnedCar3);
+
     }
 }
