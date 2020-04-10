@@ -12,14 +12,15 @@ public class ParkingBoyTest {
 
     @Before
     public void beforeFunction() {
-        parkingLotArray = new ParkingLot[1];
-        parkingLotArray[0] = new ParkingLot();
+        parkingLotArray = new ParkingLot[1];        //cars in parkinglot{}
+        System.out.println(parkingLotArray);
+        parkingLotArray[0] = new ParkingLot();      //assign car to first lot
         parkingBoy = new ParkingBoy(parkingLotArray);
     }
 
     @Test
     public void should_park_a_car_to_a_parking_lot_and_get_it_back() {
-        beforeFunction();
+      //  beforeFunction();
         Car car = new Car();
         ParkingTicket ticket = parkingBoy.park(car);
 
@@ -30,7 +31,7 @@ public class ParkingBoyTest {
 
     @Test
     public void should_park_multiple_cars_to_a_parking_lot_and_get_them_back() {
-        beforeFunction();
+      //  beforeFunction();
         Car firstCar = new Car();
         Car secondCar = new Car();
 
@@ -46,19 +47,19 @@ public class ParkingBoyTest {
 
     @Test
     public void should_not_fetch_any_car_once_ticket_is_wrong() {
-        beforeFunction();
+       // beforeFunction();
         Car car = new Car();
         ParkingTicket wrongTicket = new ParkingTicket();
 
         ParkingTicket ticket = parkingBoy.park(car);
 
         Assert.assertNull(parkingBoy.fetch(wrongTicket));
-        Assert.assertEquals(car, parkingBoy.fetch(ticket));
+
     }
 
     @Test
     public void should_query_message_once_the_ticket_is_wrong() {
-        beforeFunction();
+       // beforeFunction();
         ParkingTicket wrongTicket = new ParkingTicket();
 
         parkingBoy.fetch(wrongTicket);
@@ -68,19 +69,18 @@ public class ParkingBoyTest {
     }
 
     @Test
-    public void should_not_fetch_any_car_once_ticket_is_not_provided() {
-        beforeFunction();
-        Car car = new Car();
+    public void should_not_fetch_any_car_if_ticket_is_not_provided() {
+      //  beforeFunction();
 
-        ParkingTicket ticket = parkingBoy.park(car);
+        parkingBoy.fetch(null);
 
         Assert.assertNull(parkingBoy.fetch(null));
-        Assert.assertEquals(car, parkingBoy.fetch(ticket));
+
     }
 
     @Test
     public void should_query_message_once_ticket_is_not_provided() {
-        beforeFunction();
+     //   beforeFunction();
         parkingBoy.fetch(null);
 
         Assert.assertEquals(
@@ -90,7 +90,7 @@ public class ParkingBoyTest {
 
     @Test
     public void should_not_fetch_any_car_once_ticket_has_been_used() {
-        beforeFunction();
+      //  beforeFunction();
         Car car = new Car();
 
         ParkingTicket ticket = parkingBoy.park(car);
@@ -101,7 +101,7 @@ public class ParkingBoyTest {
 
     @Test
     public void should_query_error_message_for_used_ticket() {
-        beforeFunction();
+      //  beforeFunction();
         Car car = new Car();
 
         ParkingTicket ticket = parkingBoy.park(car);
@@ -117,8 +117,8 @@ public class ParkingBoyTest {
     public void should_not_park_cars_to_parking_lot_if_there_is_not_enough_position() {
         final int capacity = 1;
         ParkingLot[] parkingLotArray = new ParkingLot[1];
-        ParkingLot parkingLot = new ParkingLot(capacity);
-        parkingLotArray[0] = parkingLot;
+        ParkingLot parkingLotA = new ParkingLot(capacity);
+        parkingLotArray[0] = parkingLotA;
         ParkingBoy parkingBoy = new ParkingBoy(parkingLotArray);
 
         parkingBoy.park(new Car());
@@ -130,8 +130,8 @@ public class ParkingBoyTest {
     public void should_get_message_if_there_is_not_enough_position() {
         final int capacity = 1;
         ParkingLot[] parkingLotArray = new ParkingLot[1];
-        ParkingLot parkingLot = new ParkingLot(capacity);
-        parkingLotArray[0] = parkingLot;
+        ParkingLot parkingLotA = new ParkingLot(capacity);
+        parkingLotArray[0] = parkingLotA;
         ParkingBoy parkingBoy = new ParkingBoy(parkingLotArray);
 
         parkingBoy.park(new Car());
@@ -141,7 +141,7 @@ public class ParkingBoyTest {
     }
 
     @Test
-    public void should_park_car_when_previous_parkinglot_is_full() {
+    public void should_park_car_when_previous_parking_lot_is_full() {
         final int ParkingLotCapacity = 1;
 
         ParkingLot[] parkingLotArray = new ParkingLot[2];

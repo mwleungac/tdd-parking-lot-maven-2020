@@ -15,7 +15,7 @@ public class SmartParkingBoyTest {
         parkingLotArray[0] = parkingLotA;
         parkingLotArray[1] = parkingLotB;
 
-        SmartParkingBoy smartParkingBoy = new SmartParkingBoy(parkingLotArray);
+         SmartParkingBoy smartParkingBoy = new SmartParkingBoy(parkingLotArray);
 
         smartParkingBoy.park(new Car());
 

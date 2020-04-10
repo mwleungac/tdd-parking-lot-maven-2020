@@ -4,8 +4,13 @@ public class ParkingTicket {
     private Car car;
     private Boolean availability = true;
 
-    public ParkingTicket (Car car){this.car = car;}
-    public ParkingTicket (){}
+    public ParkingTicket (Car car){
+        this.car = car;
+    }
+
+    public ParkingTicket (){
+
+    }
 
     public Car getCar() {
         availability = false;

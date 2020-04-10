@@ -11,7 +11,7 @@ public class ParkingBoy {
 
 
     public ParkingTicket park(Car car) {
-        // TODO: Please implement the method
+
         for (int i = 0; i < parkingLotArray.length; i++) {
             ParkingLot parkingLot = parkingLotArray[i];
             if (parkingLot.getAvailableParkingPosition()>0) {
@@ -31,7 +31,7 @@ public class ParkingBoy {
 
 
     public Car fetch(ParkingTicket ticket) {
-        // TODO: Please implement the method
+
         if (ticket!=null){
             if (ticket.getAvailability()) {
                 return ticket.getCar();
