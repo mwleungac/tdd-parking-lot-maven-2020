@@ -1,99 +1,145 @@
 package com.oocl;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class ParkingBoyTest {
 
-    @Test
-    public void return_ticket_when_car_parked() {
+    private ParkingLot[] parkingLotArray;
+    private ParkingBoy parkingBoy;
 
-        ParkingBoy parkingBoy = new ParkingBoy();
+    @Before
+    public void beforeFunction() {
+        parkingLotArray = new ParkingLot[1];
+        parkingLotArray[0] = new ParkingLot();
+        parkingBoy = new ParkingBoy(parkingLotArray);
+    }
+
+    @Test
+    public void should_park_a_car_to_a_parking_lot_and_get_it_back() {
+        beforeFunction();
         Car car = new Car();
-        Assert.assertNotNull(parkingBoy.parkACar(car));
+        ParkingTicket ticket = parkingBoy.park(car);
+
+        Car fetched = parkingBoy.fetch(ticket);
+
+        Assert.assertEquals(fetched, car);
     }
 
     @Test
-    public void return_car_when_ticket_fetched() {
+    public void should_park_multiple_cars_to_a_parking_lot_and_get_them_back() {
+        beforeFunction();
+        Car firstCar = new Car();
+        Car secondCar = new Car();
 
-        ParkingBoy parkingBoy = new ParkingBoy();
-        Car car = new Car();                            //Car@a294a6
-        Ticket ticket = parkingBoy.parkACar(car);       //Ticket@533e64
+        ParkingTicket firstTicket = parkingBoy.park(firstCar);
+        ParkingTicket secondTicket = parkingBoy.park(secondCar);
 
-        Car returnedCar = parkingBoy.fetchACar(ticket);     //Car@a294a6
-        Assert.assertEquals(car, returnedCar);
+        Car fetchedByFirstTicket = parkingBoy.fetch(firstTicket);
+        Car fetchedBySecondTicket = parkingBoy.fetch(secondTicket);
+
+        Assert.assertEquals(firstCar, fetchedByFirstTicket);
+        Assert.assertEquals(secondCar, fetchedBySecondTicket);
     }
 
     @Test
-    public void no_car_fetched_when_no_ticket() {
-
-        ParkingBoy parkingBoy = new ParkingBoy();
-        Car car = new Car();                            //Car@a294a6
-        Ticket ticket = parkingBoy.parkACar(car);       //Ticket@533e64
-
-        Car returnedCar = parkingBoy.fetchACar(null);     //null
-        Assert.assertNull(returnedCar);
-    }
-
-    @Test
-    public void no_car_fetched_when_wrong_ticket() {
-
-        ParkingBoy parkingBoy = new ParkingBoy();
-        Car car = new Car();                            //Car@a294a6
-        Ticket ticket = parkingBoy.parkACar(car);       //Ticket@533e64
-
-        Car returnedCar = parkingBoy.fetchACar(new Ticket());     //wrong ticket
-        Assert.assertNull(returnedCar);
-    }
-
-    @Test
-    public void cannot_park_car_if_no_position() {
-        ParkingBoy parkingBoy = new ParkingBoy();
-        ParkingLot parkinglot = new ParkingLot(10,10);
-
-        boolean checkIsFull = parkinglot.isFull();
-        System.out.println(checkIsFull);
-
+    public void should_not_fetch_any_car_once_ticket_is_wrong() {
+        beforeFunction();
         Car car = new Car();
-        Ticket ticket = parkingBoy.parkACar(car);
-        System.out.println(ticket);
+        ParkingTicket wrongTicket = new ParkingTicket();
 
+        ParkingTicket ticket = parkingBoy.park(car);
+
+        Assert.assertNull(parkingBoy.fetch(wrongTicket));
+        Assert.assertEquals(car, parkingBoy.fetch(ticket));
     }
 
     @Test
-    public void error_if_wrong_ticket_fetched() {
-        ParkingBoy parkingBoy = new ParkingBoy();
-        Ticket ticket = new Ticket();
+    public void should_query_message_once_the_ticket_is_wrong() {
+        beforeFunction();
+        ParkingTicket wrongTicket = new ParkingTicket();
 
-        Car returnedCar = parkingBoy.fetchACar(new Ticket());
-        Assert.assertEquals("Unrecognized parking ticket.",parkingBoy.getErrorMsg());
+        parkingBoy.fetch(wrongTicket);
+        String message = parkingBoy.getLastErrorMessage();
 
+        Assert.assertEquals("Unrecognized parking ticket.", message);
     }
 
     @Test
-    public void error_if_no_ticket_fetched() {
-        ParkingBoy parkingBoy = new ParkingBoy();
-        Ticket ticket = new Ticket();
-
-        Car returnedCar = parkingBoy.fetchACar(null);
-        Assert.assertEquals("Please provide your parking ticket.",parkingBoy.getErrorMsg());
-
-    }
-
-    @Test
-    public void error_if_not_enough_position() {
-        ParkingBoy parkingBoy = new ParkingBoy();
-
+    public void should_not_fetch_any_car_once_ticket_is_not_provided() {
+        beforeFunction();
         Car car = new Car();
-        Ticket ticket = parkingBoy.parkACar(car);
-        Assert.assertEquals("Not enough position.",parkingBoy.getErrorMsg());
 
+        ParkingTicket ticket = parkingBoy.park(car);
+
+        Assert.assertNull(parkingBoy.fetch(null));
+        Assert.assertEquals(car, parkingBoy.fetch(ticket));
     }
 
+    @Test
+    public void should_query_message_once_ticket_is_not_provided() {
+        beforeFunction();
+        parkingBoy.fetch(null);
 
+        Assert.assertEquals(
+                "Please provide your parking ticket.",
+                parkingBoy.getLastErrorMessage());
+    }
 
+    @Test
+    public void should_not_fetch_any_car_once_ticket_has_been_used() {
+        beforeFunction();
+        Car car = new Car();
+
+        ParkingTicket ticket = parkingBoy.park(car);
+        parkingBoy.fetch(ticket);
+
+        Assert.assertNull(parkingBoy.fetch(ticket));
+    }
+
+    @Test
+    public void should_query_error_message_for_used_ticket() {
+        beforeFunction();
+        Car car = new Car();
+
+        ParkingTicket ticket = parkingBoy.park(car);
+        parkingBoy.fetch(ticket);
+        parkingBoy.fetch(ticket);
+
+        Assert.assertEquals(
+                "Unrecognized parking ticket.",
+                parkingBoy.getLastErrorMessage()
+        );
+    }
+    @Test
+    public void should_not_park_cars_to_parking_lot_if_there_is_not_enough_position() {
+        final int capacity = 1;
+        ParkingLot[] parkingLotArray = new ParkingLot[1];
+        ParkingLot parkingLot = new ParkingLot(capacity);
+        parkingLotArray[0] = parkingLot;
+        ParkingBoy parkingBoy = new ParkingBoy(parkingLotArray);
+
+        parkingBoy.park(new Car());
+
+        Assert.assertNull(parkingBoy.park(new Car()));
+    }
+
+    @Test
+    public void should_get_message_if_there_is_not_enough_position() {
+        final int capacity = 1;
+        ParkingLot[] parkingLotArray = new ParkingLot[1];
+        ParkingLot parkingLot = new ParkingLot(capacity);
+        parkingLotArray[0] = parkingLot;
+        ParkingBoy parkingBoy = new ParkingBoy(parkingLotArray);
+
+        parkingBoy.park(new Car());
+        parkingBoy.park(new Car());
+
+        Assert.assertEquals("Not enough position.", parkingBoy.getLastErrorMessage());
+    }
+
+    
 
 }

@@ -1,23 +1,31 @@
 package com.oocl;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ParkingLot {
+    public final int capacity;
 
-    int capacity;
-    int parkedCount;
-    ArrayList<Car> carList;
+    private Map<ParkingTicket, Car> cars = new HashMap<>();
 
-    public ParkingLot(int capacity, int parkedCount) {
+    public ParkingLot() {
+        this(10);
+    }
+
+    public ParkingLot(int capacity) {
         this.capacity = capacity;
-        this.parkedCount = parkedCount;
-        this.carList = new ArrayList<>();
     }
 
-    public boolean isFull() {
-        if(capacity == parkedCount){
-            return true;
-        }
-        return false;
+    public int getAvailableParkingPosition() {
+        return capacity-cars.size() ;
     }
+
+    public void addCarTicketPair(ParkingTicket ticket, Car car){
+        cars.put(ticket,car);
+    }
+
+    public int getCapacity(){
+        return this.capacity;
+    };
+
 }

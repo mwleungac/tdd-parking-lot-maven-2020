@@ -1,50 +1,51 @@
 package com.oocl;
 
-import com.sun.org.apache.xalan.internal.xsltc.compiler.util.ErrorMsg;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-
 public class ParkingBoy {
-    HashMap<Ticket, Car> cars = new HashMap<>();
-    private int parkingCapacity;
-    private ArrayList<ParkingLot> parkingLotList;
-    private String ErrorMsg;
+
+    private final ParkingLot[] parkingLotArray;
+    private String lastErrorMessage = "Unrecognized parking ticket.";
+
+    public ParkingBoy(ParkingLot[] parkingLotArray) {
+        this.parkingLotArray = parkingLotArray;
+    }
 
 
-    public Ticket parkACar(Car car) {
-        ParkingLot parkingLot = new ParkingLot(10,10);
-
-        if(parkingLot.isFull() == false) {
-
-            Ticket ticket = new Ticket();
-            cars.put(ticket, car);
-            return ticket;
+    public ParkingTicket park(Car car) {
+        // TODO: Please implement the method
+        for (int i = 0; i < parkingLotArray.length; i++) {
+            ParkingLot parkingLot = parkingLotArray[i];
+            if (parkingLot.getAvailableParkingPosition()>0) {
+                return this.getTicket(parkingLot,car);
+            }
         }
-        this.setErrorMsg("Not enough position.");
+        lastErrorMessage = "Not enough position.";
         return null;
     }
 
-
-    public Car fetchACar(Ticket ticket) {
-        if(cars.containsKey(ticket)){
-            Car returnedCar = cars.get(ticket);     //get mapped car value
-            return returnedCar;
-        }
-        if(ticket == null) {
-            this.setErrorMsg("Please provide your parking ticket.");
-            return null;
-        }
-        this.setErrorMsg("Unrecognized parking ticket.");
-        return null;
-
+    private ParkingTicket getTicket(ParkingLot parkingLot, Car car){
+        ParkingTicket ticket = new ParkingTicket(car);
+        parkingLot.addCarTicketPair(ticket,car);
+        this.lastErrorMessage = null;
+        return ticket;
     }
 
-    private void setErrorMsg(String errorMsg) {
-        ErrorMsg = errorMsg;
+
+    public Car fetch(ParkingTicket ticket) {
+        // TODO: Please implement the method
+        if (ticket!=null){
+            if (ticket.getAvailability()) {
+                return ticket.getCar();
+            }else{
+                lastErrorMessage = "Unrecognized parking ticket.";
+                return null;
+            }
+        }else{
+            lastErrorMessage = "Please provide your parking ticket.";
+            return  null;
+        }
     }
 
-    public String getErrorMsg() {
-        return ErrorMsg;
+    public String getLastErrorMessage() {
+        return this.lastErrorMessage;
     }
 }
