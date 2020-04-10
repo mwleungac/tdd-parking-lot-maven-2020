@@ -21,6 +21,7 @@ public class ParkingBoy {
             cars.put(ticket, car);
             return ticket;
         }
+        this.setErrorMsg("Not enough position.");
         return null;
     }
 

@@ -83,5 +83,17 @@ public class ParkingBoyTest {
 
     }
 
+    @Test
+    public void error_if_not_enough_position() {
+        ParkingBoy parkingBoy = new ParkingBoy();
+
+        Car car = new Car();
+        Ticket ticket = parkingBoy.parkACar(car);
+        Assert.assertEquals("Not enough position.",parkingBoy.getErrorMsg());
+
+    }
+
+
+
 
 }
