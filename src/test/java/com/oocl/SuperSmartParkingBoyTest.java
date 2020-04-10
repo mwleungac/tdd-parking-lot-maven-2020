@@ -18,7 +18,7 @@ public class SuperSmartParkingBoyTest {
         parkingLotArray[1] = parkingLotB;
 
         SuperSmartParkingBoy superSmartParkingBoy = new SuperSmartParkingBoy(parkingLotArray);
-        for (int _ = 0; _ < carNumber; _++) {
+        for (int i = 0; i < carNumber; i++) {
             superSmartParkingBoy.park(new Car());
         }
 
