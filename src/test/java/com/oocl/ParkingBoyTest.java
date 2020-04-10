@@ -63,6 +63,25 @@ public class ParkingBoyTest {
 
     }
 
+    @Test
+    public void error_if_wrong_ticket_fetched() {
+        ParkingBoy parkingBoy = new ParkingBoy();
+        Ticket ticket = new Ticket();
+
+        Car returnedCar = parkingBoy.fetchACar(new Ticket());
+        Assert.assertEquals("Unrecognized parking ticket.",parkingBoy.getErrorMsg());
+
+    }
+
+    @Test
+    public void error_if_no_ticket_fetched() {
+        ParkingBoy parkingBoy = new ParkingBoy();
+        Ticket ticket = new Ticket();
+
+        Car returnedCar = parkingBoy.fetchACar(null);
+        Assert.assertEquals("Please provide your parking ticket.",parkingBoy.getErrorMsg());
+
+    }
 
 
 }
