@@ -140,6 +140,22 @@ public class ParkingBoyTest {
         Assert.assertEquals("Not enough position.", parkingBoy.getLastErrorMessage());
     }
 
-    
+    @Test
+    public void should_park_car_when_previous_parkinglot_is_full() {
+        final int ParkingLotCapacity = 1;
+
+        ParkingLot[] parkingLotArray = new ParkingLot[2];
+        ParkingLot parkingLotA = new ParkingLot(ParkingLotCapacity);
+        ParkingLot parkingLotB = new ParkingLot(ParkingLotCapacity);
+        parkingLotArray[0] = parkingLotA;
+        parkingLotArray[1] = parkingLotB;
+
+        ParkingBoy parkingBoy = new ParkingBoy(parkingLotArray);
+
+        parkingBoy.park(new Car());
+        parkingBoy.park(new Car());
+        Assert.assertEquals(0, parkingLotA.getAvailableParkingPosition());
+        Assert.assertEquals(0, parkingLotB.getAvailableParkingPosition());
+    }
 
 }
