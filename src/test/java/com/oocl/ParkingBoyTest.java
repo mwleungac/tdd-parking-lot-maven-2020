@@ -49,6 +49,20 @@ public class ParkingBoyTest {
         Assert.assertNull(returnedCar);
     }
 
+    @Test
+    public void cannot_park_car_if_no_position() {
+        ParkingBoy parkingBoy = new ParkingBoy();
+        ParkingLot parkinglot = new ParkingLot(10,10);
+
+        boolean checkIsFull = parkinglot.isFull();
+        System.out.println(checkIsFull);
+
+        Car car = new Car();
+        Ticket ticket = parkingBoy.parkACar(car);
+        System.out.println(ticket);
+
+    }
+
 
 
 }
