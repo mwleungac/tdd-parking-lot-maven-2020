@@ -38,6 +38,17 @@ public class ParkingBoyTest {
         Assert.assertNull(returnedCar);
     }
 
+    @Test
+    public void no_car_fetched_when_wrong_ticket() {
+
+        ParkingBoy parkingBoy = new ParkingBoy();
+        Car car = new Car();                            //Car@a294a6
+        Ticket ticket = parkingBoy.parkACar(car);       //Ticket@533e64
+
+        Car returnedCar = parkingBoy.fetchACar(new Ticket());     //wrong ticket
+        Assert.assertNull(returnedCar);
+    }
+
 
 
 }
